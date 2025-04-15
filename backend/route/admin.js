@@ -5,8 +5,10 @@ const Router = express.Router();
 
 // Hardcoded default admin
 const defaultAdmin = {
+  _id: "admin-001", // Add an id field to match staff structure
+  name: "Super Admin",
   email: "admin@rms.com",
-  password: "admin123", // For production, hash this!
+  password: "admin123",
   role: "admin",
 };
 
@@ -15,12 +17,16 @@ Router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
   if (email === defaultAdmin.email && password === defaultAdmin.password) {
+    // 👇 Matching the structure used for staff tokens
     const token = jwt.sign(
-      { email, role: defaultAdmin.role },
-      "yourSecretKey",
       {
-        expiresIn: "2h",
-      }
+        _id: defaultAdmin._id,
+        name: defaultAdmin.name,
+        email: defaultAdmin.email,
+        role: defaultAdmin.role,
+      },
+      process.env.JWT_SECRET || "yourSecretKey",
+      { expiresIn: "2h" }
     );
 
     return res.json({

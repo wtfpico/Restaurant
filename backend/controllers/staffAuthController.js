@@ -70,4 +70,16 @@ const loginStaff = async (req, res) => {
   }
 };
 
-export { registerStaff, loginStaff };
+// Get All Staffs (admin protected route)
+const getAllStaff = async (req, res) => {
+  try {
+    const staffs = await StaffModel.find().select("-password"); // exclude passwords
+    res.json({ success: true, staffs });
+  } catch (error) {
+    console.log("Get Staff Error:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch staff list" });
+  }
+};
+
+
+export { registerStaff, loginStaff , getAllStaff };

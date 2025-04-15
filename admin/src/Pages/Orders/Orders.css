@@ -1,53 +1,101 @@
-.order-item{
-    display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr 1fr  1fr;
-    align-items: start;
-    margin-left: 5rem;
-    gap: 30px;
-    border: 1px solid tomato;
+.orders-container {
     padding: 20px;
-    font-size: 14px;
-    color: #505050;
-    
-}
-.order-item-food,.order-item-name{
-    font-weight: 600;
-
-}
-.order-item-name{
-    margin-top: 30px;
-    margin-bottom: 5px;
-}
-.order-item-address{
-    margin-bottom: 10px;
-}
-.order-item select{
-    background-color: #ffe8e4;
-    border: 1px solid tomato;
-    width: max(10vw, 120px);
-    padding:10px;
-    outline: none;
-}
-@media(max-width:1000px){
-    .order-item{
-        font-size: 12px;
-        grid-template-columns: 0.5fr 2fr 1fr;
-        padding: 15px 8px;
-    }
-    .order-item select{
-        padding: 5px;
-        font-size: 12px;
-    }
-    .order-item img{
-        width: 40px;
-    }
-} 
-.orders-add h3{
-    margin-left: 5rem;
-    font-size: 20px;
-    color: #505050;
-    font-weight: 600;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-top: 5rem;
-    
+    margin-left: 5rem;
+}
 
+.orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.orders-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.orders-table {
+    margin-top: 20px;
+}
+
+.order-id {
+    font-family: monospace;
+    font-weight: bold;
+    color: #1890ff;
+}
+
+.customer-info {
+    line-height: 1.4;
+}
+
+.customer-name {
+    font-weight: 500;
+    margin: 0;
+}
+
+.customer-phone {
+    color: #666;
+    margin: 0;
+}
+
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.order-items .item {
+    padding: 2px 0;
+}
+
+.order-address {
+    line-height: 1.4;
+    color: #666;
+}
+
+.empty-orders {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.empty-orders p {
+    margin-bottom: 16px;
+    color: rgba(0, 0, 0, 0.45);
+}
+
+.ant-tag {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+@media (max-width: 768px) {
+    .orders-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .controls {
+        width: 100%;
+    }
+
+    .ant-select {
+        width: 100% !important;
+    }
 }

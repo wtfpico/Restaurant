@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect } from "react";
 export const AdminContext = createContext();
 
 const AdminProvider = ({ children }) => {
-  const [adminToken, setAdminToken] = useState("");
+  const [adminToken, setAdminToken] = useState(localStorage.getItem("adminToken") || "");
   const [adminInfo, setAdminInfo] = useState(null);
 
   useEffect(() => {
