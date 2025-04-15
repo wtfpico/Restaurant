@@ -1,0 +1,197 @@
+/* ========= General Reset ========= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #f9fafb;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+/* ========= Utility Spacing ========= */
+.p-4 {
+    padding: 1.5rem;
+    margin-left: 3.5rem;
+    margin-right: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.mt-6 {
+    margin-top: 1.5rem;
+}
+
+/* ========= Header ========= */
+.flex {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.items-center {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.text-2xl {
+    font-size: 2rem;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+/* ========= Cards & Stats Grid ========= */
+.grid {
+    display: grid;
+}
+
+.grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.md\:grid-cols-4 {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.gap-4 {
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 0.875rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    padding: 1.25rem;
+    transition: all 0.25s ease-in-out;
+    border: 1px solid #e5e7eb;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.statistic-title {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.statistic-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* ========= Charts ========= */
+.bg-white {
+    background-color: #ffffff;
+    border-radius: 0.875rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.responsive-container {
+    width: 100%;
+    height: 320px;
+}
+
+/* ========= Date Picker ========= */
+.ant-picker {
+    width: 250px;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.ant-picker:hover,
+.ant-picker-focused {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* ========= Charts: Tooltip & Legend ========= */
+.recharts-tooltip-wrapper {
+    background-color: #fff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 0.75rem !important;
+    padding: 0.75rem !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.recharts-tooltip-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.recharts-tooltip-item {
+    font-size: 0.875rem;
+    color: #4b5563;
+}
+
+.recharts-legend-item {
+    font-size: 0.875rem;
+    color: #4b5563;
+}
+
+.recharts-pie-label-text {
+    font-size: 0.875rem;
+    fill: #374151;
+}
+
+/* ========= Skeleton Loader ========= */
+.skeleton {
+    border-radius: 0.75rem;
+    background: #e5e7eb;
+}
+
+/* ========= Responsive ========= */
+@media (max-width: 768px) {
+    .md\:grid-cols-4 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .responsive-container {
+        height: 260px;
+    }
+
+    .text-2xl {
+        font-size: 1.5rem;
+    }
+
+    .ant-picker {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .responsive-container {
+        height: 220px;
+    }
+
+    .text-lg {
+        font-size: 1rem;
+    }
+}

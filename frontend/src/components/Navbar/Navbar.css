@@ -1,0 +1,139 @@
+.navbar {
+    padding: 20px 5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
+    
+    /* Allows wrapping on smaller screens */
+}
+
+/* Logo */
+.navbar .logo {
+    width: 10px;
+    cursor: pointer;
+    
+}
+
+/* Main Navigation Menu */
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: clamp(10px, 2vw, 20px);
+    font-size: clamp(16px, 2vw, 19px);
+    font-weight: 500;
+    align-items: center;
+    flex-wrap: wrap;
+    /* Allows wrapping on small screens */
+}
+
+.navbar-menu li {
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-menu li:hover {
+    color: tomato;
+}
+
+/* Active Page Indicator */
+.navbar .active {
+    padding-bottom: 2px;
+    border-bottom: 2px solid tomato;
+}
+
+/* Search Icon */
+.navbar-search-icon {
+    position: relative;
+}
+
+.navbar-search-icon .dot {
+    position: absolute;
+    min-width: 10px;
+    min-height: 10px;
+    background-color: tomato;
+    border-radius: 50%;
+    top: -8px;
+    right: -8px;
+}
+
+/* Navbar Right Section */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 2vw, 20px);
+}
+
+/* Button */
+.navbar-button {
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid tomato;
+    border-radius: 120px;
+    cursor: pointer;
+    font-size: clamp(14px, 1.5vw, 19px);
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.navbar-button:hover {
+    background: tomato;
+    color: white;
+}
+.navbar-profile{
+    position: relative;
+}
+.navbar-profile:hover .nav-profile-dropdown{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #fff2ef;
+    padding: 12px 25px;
+    border-radius:4px;
+    border: 1px solid tomato;
+    outline:2px solid white ;
+    list-style: none;
+}
+.nav-profile-dropdown{
+    position: absolute;
+    display: none;
+    right: 0;
+    z-index : 1;
+}
+.nav-profile-dropdown li{
+display: flex;
+align-items: center;
+gap:10px;
+cursor: pointer;
+}
+.nav-profile-dropdown img{
+    width: 20px;
+}
+.nav-profile-dropdown li:hover{
+    color: tomato;
+}
+/* ✅ RESPONSIVE DESIGN WITHOUT HAMBURGER MENU */
+
+/* Adjust for smaller screens */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 5vw;
+        text-align: center;
+    }
+
+    .navbar-menu {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .navbar-right {
+        margin-top: 10px;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,97 @@
+.footer {
+    background-color: #323232;
+    color: white;
+    padding: 20px 8vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 80px;
+    margin-top: 250px;
+}
+
+.footer-content {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 80px;
+    max-width: 1200px;
+}
+
+/* Ensures all sections have a clean layout */
+.footer-content-left,
+.footer-content-right,
+.footer-content-center {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+}
+
+.footer-content-left p {
+    max-width: 300px;
+    line-height: 1.5;
+}
+
+.footer-content-left li,
+.footer-content-right li,
+.footer-content-center li {
+    list-style: none;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.footer-content-left li:hover,
+.footer-content-right li:hover,
+.footer-content-center li:hover {
+    color: #ffcc00;
+    /* Highlight color on hover */
+}
+
+.footer-content-right h2,
+.footer-content-center h2 {
+    color: white;
+}
+
+/* Social media icons */
+.footer-social-icons img {
+    width: 40px;
+    margin-right: 15px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.footer-social-icons img:hover {
+    transform: scale(1.1);
+}
+
+/* Horizontal line */
+.footer hr {
+    width: 100%;
+    height: 2px;
+    background-color: #555;
+    border: none;
+    margin: 20px 0;
+    background-color: grey;
+    border: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .footer-content-left,
+    .footer-content-center,
+    .footer-content-right {
+        align-items: center;
+    }
+
+    .footer-social-icons img {
+        margin: 10px;
+    }
+}

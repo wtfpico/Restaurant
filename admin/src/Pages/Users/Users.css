@@ -1,0 +1,111 @@
+.users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    padding-left: 90px;
+    margin-top: 2rem;
+}
+
+.add-btn {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.staff-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 1rem 0;
+}
+
+.staff-form input,
+.staff-form select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.staff-form .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.staff-form button {
+    padding: 8px 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+}
+
+.staff-form button[type="button"] {
+    background-color: #ccc;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+}
+
+/* Optional Close Button (Add this inside modal div in JSX) */
+.modal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.staff-list {
+    padding-left: 90px;
+    margin-top: 2rem;
+}
+
+.staff-list li {
+    padding: 12px;
+    background: #f4f4f4;
+    margin-bottom: 8px;
+    border-radius: 8px;
+}
+.users p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+    margin-left: 6rem;
+}

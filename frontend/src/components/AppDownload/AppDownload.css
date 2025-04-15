@@ -1,0 +1,51 @@
+.app-download {
+    margin: auto;
+    margin-top: 250px;
+    font-size: clamp(1rem, 2vw, 20px);
+    /* Ensures good readability across devices */
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Container for app store buttons */
+.app-download-platforms {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: clamp(10px, 2vw, 20px);
+    /* Dynamically adjusts spacing */
+}
+
+/* App store icons */
+.app-download-platforms img {
+    width: clamp(120px, 30vw, 180px);
+    /* Prevents shrinking too much */
+    transition: transform 0.5s ease;
+    /* Fix transition issue */
+    cursor: pointer;
+}
+
+.app-download-platforms img:hover {
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .app-download {
+        font-size: 16px;
+        /* Slightly smaller for small screens */
+        margin-top: 60px;
+    }
+
+    .app-download-platforms {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        /* Reduced gap for better stacking */
+    }
+
+    .app-download-platforms img {
+        width: 140px;
+        /* Fixed size to avoid excessive scaling on small screens */
+    }
+}

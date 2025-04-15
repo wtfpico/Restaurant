@@ -1,0 +1,128 @@
+.placeorder {
+    align-items: start;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 100px;
+    gap: 50px;
+}
+
+.placeorder-left {
+    width: 100%;
+    max-width: max(30%, 500px);
+}
+
+.placeorder-left .title {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 50px;
+}
+
+.placeorder-left input {
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #c0c0c0;
+    border-radius: 5px;
+    outline-color: tomato;
+}
+
+.placeorder-left .multi-fields {
+    display: flex;
+    gap: 10px;
+}
+
+.placeorder-right {
+    width: 100%;
+    max-width: max(40%, 500px);
+}
+
+.placeorder .cart-total button {
+    margin-top: 30px;
+}
+
+.cart-total-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-total-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cart-total-details span {
+    font-weight: bold;
+    padding-left: 50px;
+}
+
+.total {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.cart-total-details-total span {
+    font-size: 20px;
+    color: tomato;
+    padding-left: 70px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .placeorder {
+        flex-direction: column;
+        /* Stack left and right sections */
+        align-items: center;
+        /* Center them */
+        gap: 30px;
+        /* Reduce gap */
+        margin-top: 50px;
+        /* Reduce top margin */
+    }
+
+    .placeorder-left,
+    .placeorder-right {
+        max-width: 100%;
+        /* Allow full width */
+    }
+
+    .placeorder-left .title {
+        font-size: 24px;
+        /* Reduce font size */
+        margin-bottom: 30px;
+        /* Reduce margin */
+    }
+
+    .placeorder-left input {
+        font-size: 14px;
+        /* Reduce input font size */
+        padding: 8px;
+        /*reduce padding */
+    }
+
+    .cart-total-details {
+        font-size: 14px;
+        /* Reduce font size */
+    }
+
+    .total {
+        font-size: 16px;
+        /* Reduce font size */
+    }
+
+    .cart-total-details-total span {
+        font-size: 18px;
+        /* Reduce font size */
+        padding-left: 50px;
+        /* Reduce padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .placeorder-left .multi-fields {
+        flex-direction: column;
+    }
+}
