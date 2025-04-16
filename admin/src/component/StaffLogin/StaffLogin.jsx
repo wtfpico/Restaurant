@@ -12,28 +12,64 @@ const StaffLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:4000/api/admin/login", {
-        email,
-        password,
-      });
 
-      if (res.data.success) {
-        loginAdmin(res.data.token, res.data.admin); // Set token and info
-        navigate("/"); // Redirect to dashboard
-      } else {
-        alert(res.data.message);
+    try {
+      // Try admin login
+      const adminRes = await axios.post(
+        "http://localhost:4000/api/admin/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      const { token, user, role } = adminRes.data;
+      loginAdmin(token, { ...user, role });
+
+      const roleRoutes = {
+        admin: "/",
+      };
+
+      navigate(roleRoutes[role] || "/");
+    } catch {
+      try {
+        // Try staff login
+        const staffRes = await axios.post(
+          "http://localhost:4000/api/staff/login",
+          {
+            email,
+            password,
+          }
+        );
+
+        const { token, staff } = staffRes.data;
+        const role = staff.role; // Get the role from the user object
+        loginAdmin(token, { ...staff, role });
+
+        const roleRoutes = {
+          admin: "/",
+          chef: "/kitchen",
+          waiter: "/orders",
+          cashier: "/cashier",
+          manager: "/manager",
+        };
+
+        const defaultRoute = "/unauthorized"; // Instead of home page
+        // Add this before navigate
+        navigate(roleRoutes[role] || defaultRoute);
+      } catch (staffErr) {
+        alert(
+          staffErr.response?.data?.message || "Login failed. Please try again."
+        );
+        console.error("Staff login error:", staffErr);
       }
-    } catch (err) {
-      alert("Login failed. Please check your credentials.");
-      console.error(err);
     }
   };
 
   return (
     <div className="staff-login-page">
       <form onSubmit={handleSubmit} className="staff-login-form">
-        <h2>Staff Login</h2>
+        <h2>Restaurant Portal Login</h2>
         <input
           type="email"
           placeholder="Email"
