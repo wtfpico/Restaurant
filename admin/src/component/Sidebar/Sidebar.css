@@ -4,7 +4,7 @@
     /* Below navbar */
     left: 0;
     height: calc(100vh - 64px);
-    width: 150px;
+    width: 120px;
     background-color:#374151 ;
     color: black;
     padding: 20px;
@@ -15,7 +15,7 @@
 }
 
 .sidebar.collapsed {
-    width: 64px;
+    width: 24px;
 }
 
 .sidebar-header {
