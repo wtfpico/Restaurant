@@ -33,7 +33,7 @@ const StaffLogin = () => {
   return (
     <div className="staff-login-page">
       <form onSubmit={handleSubmit} className="staff-login-form">
-        <h2>Admin Login</h2>
+        <h2>Staff Login</h2>
         <input
           type="email"
           placeholder="Email"
