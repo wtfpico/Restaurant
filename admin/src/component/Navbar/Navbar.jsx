@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AdminContext } from "../../Context/AdminContext";
 import { Modal, Button, message } from "antd";
 
+
 const Navbar = () => {
   const navigate = useNavigate();
   const { admin } = useContext(AdminContext);
@@ -15,6 +16,7 @@ const Navbar = () => {
     message.success("Logged out successfully");
     navigate("/staff/login");
   };
+
 
   return (
     <>
@@ -30,7 +32,7 @@ const Navbar = () => {
               alt="Admin"
               className="admin-avatar"
             />
-            <span>{admin?.name || "Admin"}</span>
+            <span>{admin?.role ? admin.role.toUpperCase() : "USER"}</span>
           </div>
           <button
             className="logout-btn"

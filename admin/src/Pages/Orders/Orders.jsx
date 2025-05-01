@@ -120,83 +120,60 @@ const Orders = ({ url }) => {
       onFilter: (value, record) => record.status === value,
       width: 180,
     },
-    {
-      title: "Actions",
-      key: "actions",
-      render: (_, order) => (
-        <Select
-          defaultValue={order.status || "Food Processing"}
-          onChange={(value) => updateStatus(order._id, value)}
-          style={{ width: 180 }}
-        >
-          <Option value="Food Processing">Food Processing</Option>
-          <Option value="Out for Delivery">Out for Delivery</Option>
-          <Option value="Delivered">Delivered</Option>
-          <Option value="Completed">Completed</Option>
-          <Option value="Cancelled">Cancelled</Option>
-        </Select>
-      ),
-      width: 200,
-    },
+   
   ];
 
-  const fetchAllOrders = async (params = {}) => {
-    setLoading(true);
-    try {
-      const { current, pageSize } = pagination;
-      const response = await axios.get(`${url}/api/order/list`, {
-        params: {
-          page: current,
-          limit: pageSize,
-          status: selectedStatus !== "all" ? selectedStatus : undefined,
-          ...params,
-        },
-      });
+ const fetchAllOrders = async (params = {}) => {
+   setLoading(true);
+   try {
+     const currentPage = params.page || pagination.current;
+     const limit = params.limit || pagination.pageSize;
 
-      if (response.data.success) {
-        setOrders(response.data.data);
-        setPagination({
-          ...pagination,
-          total: response.data.total || 0,
-        });
-      } else {
-        message.error(response.data.message || "Failed to fetch orders");
-      }
-    } catch (error) {
-      message.error("Error fetching orders. Please try again.");
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+     const response = await axios.get(`${url}/api/order/list`, {
+       params: {
+         page: currentPage,
+         limit: limit,
+         status: selectedStatus !== "all" ? selectedStatus : undefined,
+       },
+     });
 
-  const updateStatus = async (orderId, status) => {
-    try {
-      const response = await axios.post(`${url}/api/order/status`, {
-        orderId,
-        status,
-      });
+     if (response.data.success) {
+       setOrders(response.data.data);
+       setPagination((prev) => ({
+         ...prev,
+         total: response.data.total || 0,
+         current: currentPage,
+         pageSize: limit,
+       }));
+     } else {
+       message.error(response.data.message || "Failed to fetch orders");
+     }
+   } catch (error) {
+     message.error("Error fetching orders. Please try again.");
+     console.error("Error:", error);
+   } finally {
+     setLoading(false);
+   }
+ };
 
-      if (response.data.success) {
-        message.success("Order status updated successfully");
-        fetchAllOrders();
-      } else {
-        message.error(response.data.message || "Failed to update status");
-      }
-    } catch (error) {
-      message.error("Error updating order status");
-      console.error("Error:", error);
-    }
-  };
 
-  const handleTableChange = (pagination, filters, sorter) => {
-    setPagination(pagination);
+  
+  const handleTableChange = (newPagination, filters, sorter) => {
+    setPagination((prev) => ({
+      ...prev,
+      current: newPagination.current,
+      pageSize: newPagination.pageSize,
+    }));
+
     fetchAllOrders({
+      page: newPagination.current,
+      limit: newPagination.pageSize,
       sortField: sorter.field,
       sortOrder: sorter.order,
       ...filters,
     });
   };
+
 
   const refreshOrders = () => {
     fetchAllOrders();

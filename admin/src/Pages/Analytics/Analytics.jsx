@@ -205,7 +205,7 @@ const AnalyticsPage = () => {
       color: "#1890ff",
     },
     {
-      name: "Total Users",
+      name: "Total Customers",
       value: analytics.totalUsers || 0,
       icon: <UserOutlined />,
       color: "#52c41a",
