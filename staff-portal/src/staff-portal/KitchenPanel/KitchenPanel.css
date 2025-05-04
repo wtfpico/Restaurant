@@ -1,0 +1,118 @@
+/* KitchenPanel.css */
+
+/* General Layout */
+body {
+  background-color: #f5f5f5;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #001529;
+  color: white;
+  padding: 1rem 2rem;
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+}
+
+/* Main Container */
+.orders-container {
+  padding: 20px 30px;
+  background-color: #fff;
+  min-height: 100vh;
+}
+
+/* Header Section */
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.orders-header h2 {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Control Buttons */
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+/* Table Styling */
+.orders-table {
+  overflow-x: auto;
+}
+
+.order-id {
+  font-weight: bold;
+  color: #1677ff;
+}
+
+.customer-info {
+  line-height: 1.4;
+}
+
+.customer-name {
+  font-weight: 600;
+}
+
+.customer-phone {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.order-items {
+  line-height: 1.4;
+}
+
+.item {
+  margin-bottom: 4px;
+}
+
+.order-address p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.empty-orders {
+  text-align: center;
+  padding: 30px;
+}
+
+.empty-orders p {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .orders-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .controls {
+    flex-direction: column;
+    width: 100%;
+  }
+}

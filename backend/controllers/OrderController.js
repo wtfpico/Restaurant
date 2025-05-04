@@ -116,4 +116,51 @@ const updateStatus = async (req, res) => {
   }
 };
 
-export { placeOrder, verifyOrder, userOrders, listOrders, updateStatus };
+// controllers/orderController.js
+const updatePaymentStatus = async (req, res) => {
+  try {
+    const { orderId, payment } = req.body;
+
+    if (!orderId) {
+      return res.status(400).json({
+        success: false,
+        message: "Order ID is required.",
+      });
+    }
+
+    if (typeof payment !== "boolean") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid payment value. Must be true or false.",
+      });
+    }
+
+    const updatedOrder = await orderModel.findByIdAndUpdate(
+      orderId,
+      { payment },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Payment status updated successfully",
+      data: updatedOrder,
+    });
+  } catch (error) {
+    console.error("Error updating payment status:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error updating payment status",
+    });
+  }
+};
+
+
+export { placeOrder, verifyOrder, userOrders, listOrders, updateStatus , updatePaymentStatus };

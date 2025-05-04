@@ -48,15 +48,15 @@ const StaffLogin = () => {
 
         const roleRoutes = {
           admin: "/",
-          chef: "/kitchen",
-          waiter: "/orders",
-          cashier: "/cashier",
-          manager: "/manager",
+          chef: "http://localhost:5175/staff/kitchen",
+          waiter: "http://localhost:5175/staff/waiter",
+          cashier: "http://localhost:5175/staff/cashier",
+          manager: "http://localhost:5175/staff/manager",
         };
 
         const defaultRoute = "/unauthorized"; // Instead of home page
-        // Add this before navigate
-        navigate(roleRoutes[role] || defaultRoute);
+        
+        window.location.href = roleRoutes[role] || defaultRoute;
       } catch (staffErr) {
         alert(
           staffErr.response?.data?.message || "Login failed. Please try again."
