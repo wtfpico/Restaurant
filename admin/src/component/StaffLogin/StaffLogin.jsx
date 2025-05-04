@@ -43,7 +43,7 @@ const StaffLogin = () => {
         );
 
         const { token, staff } = staffRes.data;
-        const role = staff.role; // Get the role from the user object
+        const role = staff.role; 
         loginAdmin(token, { ...staff, role });
 
         const roleRoutes = {
@@ -52,6 +52,7 @@ const StaffLogin = () => {
           waiter: "http://localhost:5175/staff/waiter",
           cashier: "http://localhost:5175/staff/cashier",
           manager: "http://localhost:5175/staff/manager",
+          delivery: "http://localhost:5175/staff/delivery",
         };
 
         const defaultRoute = "/unauthorized"; // Instead of home page

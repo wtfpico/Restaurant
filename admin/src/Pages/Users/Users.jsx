@@ -182,7 +182,7 @@ const Users = () => {
       let response;
       if (editMode) {
         response = await axios.put(
-          `http://localhost:4000/api/staff/updateStaff/${currentStaffId}`,
+          `http://localhost:4000/api/staff/update/${currentStaffId}`,
           formData,
           { headers: { Authorization: `Bearer ${adminToken}` } }
         );
@@ -227,7 +227,7 @@ const Users = () => {
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:4000/api/staff/deleteStaff/${id}`,
+        `http://localhost:4000/api/staff/delete/${id}`,
         { headers: { Authorization: `Bearer ${adminToken}` } }
       );
       if (response.data.success) {
@@ -313,6 +313,7 @@ const Users = () => {
               <Option value="chef">Chef</Option>
               <Option value="waiter">Waiter</Option>
               <Option value="cashier">Cashier</Option>
+              <Option value="delivery">Delivery</Option>
             </Select>
           </div>
           {error && <div className="error-message">{error}</div>}

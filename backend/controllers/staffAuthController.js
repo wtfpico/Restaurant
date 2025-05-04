@@ -80,6 +80,50 @@ const getAllStaff = async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to fetch staff list" });
   }
 };
+// Edit Staff
+const updateStaff = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, role } = req.body;
+
+  try {
+    const staff = await StaffModel.findById(id);
+    if (!staff) {
+      return res.status(404).json({ success: false, message: "Staff not found" });
+    }
+
+    if (email && !validator.isEmail(email)) {
+      return res.json({ success: false, message: "Invalid email format" });
+    }
+
+    staff.name = name || staff.name;
+    staff.email = email || staff.email;
+    staff.role = role || staff.role;
+
+    await staff.save();
+
+    res.json({ success: true, message: "Staff updated successfully", staff });
+  } catch (error) {
+    console.error("Update Staff Error:", error);
+    res.status(500).json({ success: false, message: "Failed to update staff" });
+  }
+};
+
+// Delete Staff
+const deleteStaff = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const staff = await StaffModel.findByIdAndDelete(id);
+    if (!staff) {
+      return res.status(404).json({ success: false, message: "Staff not found" });
+    }
+
+    res.json({ success: true, message: "Staff deleted successfully" });
+  } catch (error) {
+    console.error("Delete Staff Error:", error);
+    res.status(500).json({ success: false, message: "Failed to delete staff" });
+  }
+};
 
 
-export { registerStaff, loginStaff , getAllStaff };
+export { registerStaff, loginStaff , getAllStaff , updateStaff, deleteStaff };
