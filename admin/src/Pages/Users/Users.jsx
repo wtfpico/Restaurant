@@ -30,10 +30,11 @@ const Users = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const roleColors = {
-    admin: "red",
+    admin: "tomato",
     chef: "orange",
     waiter: "blue",
     cashier: "green",
+    delivery: "cyan",
   };
 
   const columns = [
@@ -64,6 +65,7 @@ const Users = () => {
         { text: "Chef", value: "chef" },
         { text: "Waiter", value: "waiter" },
         { text: "Cashier", value: "cashier" },
+        { text: "Delivery", value: "delivery" },
       ],
       onFilter: (value, record) => record.role === value,
     },
