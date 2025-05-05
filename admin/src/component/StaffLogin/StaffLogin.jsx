@@ -16,7 +16,7 @@ const StaffLogin = () => {
     try {
       // Try admin login
       const adminRes = await axios.post(
-        "http://localhost:4000/api/admin/login",
+        "http://localhost:4000/api/staff/login",
         {
           email,
           password,
@@ -43,7 +43,7 @@ const StaffLogin = () => {
         );
 
         const { token, staff } = staffRes.data;
-        const role = staff.role; 
+        const role = staff.role; // Get the role from the user object
         loginAdmin(token, { ...staff, role });
 
         const roleRoutes = {
@@ -52,7 +52,6 @@ const StaffLogin = () => {
           waiter: "http://localhost:5175/staff/waiter",
           cashier: "http://localhost:5175/staff/cashier",
           manager: "http://localhost:5175/staff/manager",
-          delivery: "http://localhost:5175/staff/delivery",
         };
 
         const defaultRoute = "/unauthorized"; // Instead of home page

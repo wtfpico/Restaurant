@@ -311,7 +311,7 @@ const Users = () => {
               }
               style={{ width: "100%" }}
             >
-              <Option value="admin">Admin</Option>
+              <Option value="admin">admin</Option>
               <Option value="chef">Chef</Option>
               <Option value="waiter">Waiter</Option>
               <Option value="cashier">Cashier</Option>
