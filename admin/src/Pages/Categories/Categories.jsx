@@ -4,8 +4,7 @@ import "./Categories.css";
 import { ToastContainer, toast } from "react-toastify";
 
 const API_URL = "http://localhost:4000/api/categories"; // Change this if backend URL is different
-const IMAGE_BASE_URL = "http://localhost:4000/uploads";
-// Add this to correctly load images
+const IMAGE_BASE_URL = "http://localhost:4000/uploads"; // Base URL for images
 
 const Categories = () => {
   const [categoryName, setCategoryName] = useState("");
@@ -21,7 +20,7 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get(`${API_URL}/list`); // Ensure endpoint matches backend
+      const res = await axios.get(`${API_URL}/list`);
       setCategories(res.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -32,8 +31,12 @@ const Categories = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please upload a valid image file.");
+        return;
+      }
       setImage(file);
-      setImagePreview(URL.createObjectURL(file)); // Temporary preview
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -42,20 +45,19 @@ const Categories = () => {
     e.preventDefault();
 
     if (!categoryName) {
-      alert("Please provide a category name.");
+      toast.error("Please provide a category name.");
       return;
     }
 
     const formData = new FormData();
     formData.append("name", categoryName);
-    if (image) formData.append("image", image); // Only append if there's an image
+    if (image) formData.append("image", image);
 
     try {
       if (editId) {
         // Update Category
         await axios.put(`${API_URL}/update/${editId}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
-          
         });
         toast.success("Category updated successfully");
       } else {
@@ -70,6 +72,7 @@ const Categories = () => {
       clearForm();
     } catch (error) {
       console.error("Error adding/updating category:", error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -77,7 +80,7 @@ const Categories = () => {
   const handleEdit = (category) => {
     setCategoryName(category.name);
     setImage(null); // Reset image so user can choose a new one
-    setImagePreview(`${IMAGE_BASE_URL}${category.image}`); // Full path to display existing image
+    setImagePreview(`${IMAGE_BASE_URL}/${category.image}`); // Full path to display existing image
     setEditId(category._id);
   };
 
@@ -104,7 +107,7 @@ const Categories = () => {
   return (
     <div className="category-container">
       <div className="category-form">
-        <h2>Category</h2>
+        <h2>{editId ? "Edit" : "Add"} Category</h2>
         <form onSubmit={handleSubmit}>
           <label>Category Name</label>
           <input
@@ -117,11 +120,15 @@ const Categories = () => {
 
           <label>Category Image</label>
           <input type="file" accept="image/*" onChange={handleImageChange} />
-          {imagePreview && <img src={imagePreview} alt="Preview" className="preview-image" />}
+          {imagePreview && (
+            <img src={imagePreview} alt="Preview" className="preview-image" />
+          )}
 
           <div className="button-group">
             <button type="submit">{editId ? "Update" : "Add"}</button>
-            <button type="button" onClick={clearForm}>Clear</button>
+            <button type="button" onClick={clearForm}>
+              Clear
+            </button>
           </div>
         </form>
       </div>
@@ -141,19 +148,27 @@ const Categories = () => {
               <tr key={category._id}>
                 <td>{category.name}</td>
                 <td>
-                   {category.image && (
-    <img src={`${IMAGE_BASE_URL}/${category.image}`} alt={category.name} className="list-image" />
-  )}
+                  {category.image && (
+                    <img
+                      src={`${IMAGE_BASE_URL}/${category.image}`}
+                      alt={category.name}
+                      className="list-image"
+                    />
+                  )}
                 </td>
                 <td>
                   <button onClick={() => handleEdit(category)}>Edit</button>
-                  <button onClick={() => handleDelete(category._id)}>Delete</button>
+                  <button onClick={() => handleDelete(category._id)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      <ToastContainer />
     </div>
   );
 };

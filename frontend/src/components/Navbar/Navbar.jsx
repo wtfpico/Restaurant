@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
-import { StoreContext } from "../../context/StoreContext";
+import { StoreContext } from "../../Context/StoreContext";
 
 const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("menu");
@@ -27,10 +27,10 @@ const Navbar = ({ setShowLogin }) => {
   };
 
   return (
-    <div className="navbar">
-      <a href="http://localhost:5173/staff/login" className="navbar-logo">
+    <nav className="navbar">
+      <Link to="/" className="navbar-logo">
         <img src={assets.logo} alt="logo" />
-      </a>
+      </Link>
 
       <ul className="navbar-menu">
         <Link
@@ -40,50 +40,46 @@ const Navbar = ({ setShowLogin }) => {
         >
           Home
         </Link>
-        <a
-          href="#exploremenu"
+        <span
           onClick={(e) => handleScroll(e, "exploremenu")}
           className={menu === "exploremenu" ? "active" : ""}
         >
           Menu
-        </a>
-        <a
-          href="#app-download"
+        </span>
+        <span
           onClick={(e) => handleScroll(e, "app-download")}
           className={menu === "app-download" ? "active" : ""}
         >
           Mobile
-        </a>
-        <a
-          href="#footer"
+        </span>
+        <span
           onClick={(e) => handleScroll(e, "footer")}
           className={menu === "footer" ? "active" : ""}
         >
           Contact
-        </a>
+        </span>
       </ul>
 
       <div className="navbar-right">
         <img src={assets.search_icon} alt="search" />
-
         <div className="navbar-search-icon">
           <Link to="/cart">
-            {" "}
             <img src={assets.basket_icon} alt="cart" />
           </Link>
-          
           <div className={getTotalCartAmount() === 0 ? "" : "dot"} />
         </div>
+
         {!token ? (
           <button onClick={() => setShowLogin(true)} className="navbar-button">
             Sign in
           </button>
         ) : (
           <div className="navbar-profile">
-            <img src={assets.profile_icon} alt="" />
+            <img src={assets.profile_icon} alt="profile" />
             <ul className="nav-profile-dropdown">
               <li onClick={() => navigate("/myorders")}>
-                <img src={assets.bag_icon} alt="" /> <p>Orders</p>
+                <img src={assets.bag_icon} alt="Orders" />
+                <p>Orders</p>
               </li>
               <hr />
               <li onClick={logout}>
@@ -94,7 +90,7 @@ const Navbar = ({ setShowLogin }) => {
           </div>
         )}
       </div>
-    </div>
+    </nav>
   );
 };
 

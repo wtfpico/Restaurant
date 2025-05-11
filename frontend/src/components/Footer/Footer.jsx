@@ -4,43 +4,74 @@ import { assets } from "../../assets/assets";
 
 const Footer = () => {
   return (
-    <div className="footer" id="footer">
+    <footer className="footer" id="footer">
       <div className="footer-content">
         {/* Left Section - Logo & Social Media */}
         <div className="footer-content-left">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p>Delivering your favorite meals hot and fast, anytime.</p>
           <div className="footer-social-icons">
-            <img src={assets.facebook_icon} alt="facebook" />
-            <img src={assets.twitter_icon} alt="twitter" />
-            <img src={assets.linkedin_icon} alt="linkedin" />
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={assets.facebook_icon} alt="Facebook" />
+            </a>
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={assets.twitter_icon} alt="Twitter" />
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={assets.linkedin_icon} alt="LinkedIn" />
+            </a>
           </div>
         </div>
 
         {/* Center Section - Company Links */}
-        <div className="footer-content-center">
+        <nav className="footer-content-center" aria-label="Company Navigation">
           <h2>COMPANY</h2>
           <ul>
-            <li>Home</li>
-            <li>About</li>
-            <li>Delivery</li>
-            <li>Privacy Policy</li>
+            <li>
+              <a href="#home">Home</a>
+            </li>
+            <li>
+              <a href="#about">About</a>
+            </li>
+            <li>
+              <a href="#delivery">Delivery</a>
+            </li>
+            <li>
+              <a href="#privacy">Privacy Policy</a>
+            </li>
           </ul>
-        </div>
+        </nav>
 
         {/* Right Section - Contact Information */}
-        <div className="footer-content-right">
+        <address className="footer-content-right">
           <h2>GET IN TOUCH</h2>
           <ul>
-            <li>+91 1234567890</li>
-            <li>8H2z0@example.com</li>
+            <li>
+              <a href="tel:+911234567890">+91 1234567890</a>
+            </li>
+            <li>
+              <a href="mailto:8H2z0@example.com">8H2z0@example.com</a>
+            </li>
           </ul>
-        </div>
+        </address>
       </div>
-      <hr/>
+      <hr />
       <p className="footer-copyright">
-        &copy; 2021 Food Delivery App. All Rights Reserved.
+        &copy; {new Date().getFullYear()} Food Delivery App. All Rights
+        Reserved.
       </p>
-    </div>
+    </footer>
   );
 };
 

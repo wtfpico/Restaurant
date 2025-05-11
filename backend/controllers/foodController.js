@@ -8,6 +8,13 @@ const addFood = async (req, res) => {
     const { name, description, price, category } = req.body;
     const image_filename = req.file ? req.file.filename : "";
 
+    // Validate inputs
+    if (!name || !description || !price || !category) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
+
     // Check if food with the same name exists
     const existingFood = await foodModel.findOne({ name });
     if (existingFood) {
@@ -60,6 +67,9 @@ const removeFood = async (req, res) => {
       fs.unlink(imagePath, (err) => {
         if (err && err.code !== "ENOENT") {
           console.error("Error deleting image:", err);
+          return res
+            .status(500)
+            .json({ success: false, message: "Failed to delete image" });
         }
       });
     }
@@ -78,6 +88,13 @@ const updateFood = async (req, res) => {
     const { name, description, price, category } = req.body;
     const newImage = req.file ? req.file.filename : null;
 
+    // Validate inputs
+    if (!name || !description || !price || !category) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
+
     const food = await foodModel.findById(id);
     if (!food) {
       return res
@@ -85,11 +102,15 @@ const updateFood = async (req, res) => {
         .json({ success: false, message: "Food not found" });
     }
 
+    // If a new image is uploaded, delete the old one
     if (newImage && food.image) {
       const oldImagePath = path.resolve("uploads", food.image);
       fs.unlink(oldImagePath, (err) => {
         if (err && err.code !== "ENOENT") {
           console.error("Error deleting old image:", err);
+          return res
+            .status(500)
+            .json({ success: false, message: "Failed to delete old image" });
         }
       });
     }
@@ -101,7 +122,7 @@ const updateFood = async (req, res) => {
         description,
         price,
         category,
-        ...(newImage && { image: newImage }),
+        ...(newImage && { image: newImage }), // Update image if a new one is uploaded
       },
       { new: true }
     );

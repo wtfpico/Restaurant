@@ -14,7 +14,6 @@ import "./Orders.css";
 
 const { Option } = Select;
 
-
 const Orders = ({ url }) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -92,10 +91,10 @@ const Orders = ({ url }) => {
     },
     {
       title: "Date",
-      dataIndex: "createdAt",
+      dataIndex: "date",
       key: "date",
-      render: (date) => moment(date).format("MMM D, h:mm A"),
-      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      render: (d) => moment(d).format("MMM D, h:mm A"),
+      sorter: (a, b) => new Date(a.date) - new Date(b.date),
       width: 150,
     },
     {
@@ -120,44 +119,41 @@ const Orders = ({ url }) => {
       onFilter: (value, record) => record.status === value,
       width: 180,
     },
-   
   ];
 
- const fetchAllOrders = async (params = {}) => {
-   setLoading(true);
-   try {
-     const currentPage = params.page || pagination.current;
-     const limit = params.limit || pagination.pageSize;
+  const fetchAllOrders = async (params = {}) => {
+    setLoading(true);
+    try {
+      const currentPage = params.page || pagination.current;
+      const limit = params.limit || pagination.pageSize;
 
-     const response = await axios.get(`${url}/api/order/list`, {
-       params: {
-         page: currentPage,
-         limit: limit,
-         status: selectedStatus !== "all" ? selectedStatus : undefined,
-       },
-     });
+      const response = await axios.get(`${url}/api/order/list`, {
+        params: {
+          page: currentPage,
+          limit: limit,
+          status: selectedStatus !== "all" ? selectedStatus : undefined,
+        },
+      });
 
-     if (response.data.success) {
-       setOrders(response.data.data);
-       setPagination((prev) => ({
-         ...prev,
-         total: response.data.total || 0,
-         current: currentPage,
-         pageSize: limit,
-       }));
-     } else {
-       message.error(response.data.message || "Failed to fetch orders");
-     }
-   } catch (error) {
-     message.error("Error fetching orders. Please try again.");
-     console.error("Error:", error);
-   } finally {
-     setLoading(false);
-   }
- };
+      if (response.data.success) {
+        setOrders(response.data.data);
+        setPagination((prev) => ({
+          ...prev,
+          total: response.data.total || 0,
+          current: currentPage,
+          pageSize: limit,
+        }));
+      } else {
+        message.error(response.data.message || "Failed to fetch orders");
+      }
+    } catch (error) {
+      message.error("Error fetching orders. Please try again.");
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-
-  
   const handleTableChange = (newPagination, filters, sorter) => {
     setPagination((prev) => ({
       ...prev,
@@ -173,7 +169,6 @@ const Orders = ({ url }) => {
       ...filters,
     });
   };
-
 
   const refreshOrders = () => {
     fetchAllOrders();

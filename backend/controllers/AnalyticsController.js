@@ -1,20 +1,27 @@
 import OrderModel from "../models/OrderModel.js";
 import UserModel from "../models/UserModel.js";
+
+// Utility function to calculate total revenue
+const calculateTotalRevenue = async () => {
+  const totalRevenue = await OrderModel.aggregate([
+    { $match: { status: { $in: ["Completed", "Delivered"] } } },
+    { $group: { _id: null, totalRevenue: { $sum: "$amount" } } },
+  ]);
+  return totalRevenue.length > 0 ? totalRevenue[0].totalRevenue : 0;
+};
+
+// General Analytics
 export const getGeneralAnalytics = async (req, res) => {
   try {
     const totalOrders = await OrderModel.countDocuments();
     const totalUsers = await UserModel.countDocuments();
-   
 
     // Total revenue from completed/delivered orders
-    const totalRevenue = await OrderModel.aggregate([
-      { $match: { status: { $in: ["Completed", "Delivered"] } } },
-      { $group: { _id: null, totalRevenue: { $sum: "$amount" } } },
-    ]);
+    const totalRevenue = await calculateTotalRevenue();
 
     // Monthly revenue trends
     const monthlyRevenue = await OrderModel.aggregate([
-      { $match: { status: { $in: ["Completed", "Delivered"] } } },
+      { $match: { status: { $in: ["Completed"] } } },
       {
         $group: {
           _id: { $month: "$date" },
@@ -39,19 +46,14 @@ export const getGeneralAnalytics = async (req, res) => {
       { $group: { _id: "$status", count: { $sum: 1 } } },
     ]);
 
-    const totalRevenueValue =
-  totalRevenue.length > 0 ? totalRevenue[0].totalRevenue : 0;
-
-const avgOrderValue =
-  totalOrders > 0 ? totalRevenueValue / totalOrders : 0;
+    const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
 
     res.json({
       success: true,
       data: {
         totalOrders,
         totalUsers,
-        totalRevenue:
-          totalRevenue.length > 0 ? totalRevenue[0].totalRevenue : 0,
+        totalRevenue,
         monthlyRevenue,
         predictedRevenue, // New predicted revenue
         orderStatusBreakdown,
@@ -64,42 +66,38 @@ const avgOrderValue =
   }
 };
 
+// Order Trends (e.g., Daily, Weekly, Monthly)
 export const getOrderTrends = async (req, res) => {
-try {
-  const period = req.query.period || "daily"; // Default to daily
-  let dateFormat = "%Y-%m-%d"; // Default daily grouping
+  try {
+    const period = req.query.period || "daily"; // Default to daily
+    let dateFormat = "%Y-%m-%d"; // Default daily grouping
 
-  if (period === "weekly") {
-    dateFormat = "%Y-%U"; // Group by year-week (Week Number)
-  } else if (period === "monthly") {
-    dateFormat = "%Y-%m"; // Group by year-month
-  }
+    if (period === "weekly") {
+      dateFormat = "%Y-%U"; // Group by year-week (Week Number)
+    } else if (period === "monthly") {
+      dateFormat = "%Y-%m"; // Group by year-month
+    }
 
-  const trends = await OrderModel.aggregate([
-    {
-      $match: { payment: true }, // Only include paid orders
-    },
-    {
-      $group: {
-        _id: {
-          $dateToString: { format: dateFormat, date: "$date" },
+    const trends = await OrderModel.aggregate([
+      { $match: { payment: true } }, // Only include paid orders
+      {
+        $group: {
+          _id: { $dateToString: { format: dateFormat, date: "$date" } },
+          count: { $sum: 1 },
+          totalAmount: { $sum: "$amount" },
         },
-        count: { $sum: 1 },
-        totalAmount: { $sum: "$amount" },
       },
-    },
-    {
-      $sort: { _id: 1 },
-    },
-  ]);
+      { $sort: { _id: 1 } },
+    ]);
 
-  res.json({ success: true, data: trends });
-} catch (error) {
-  console.error("Error fetching order trends:", error);
-  res.status(500).json({ success: false, message: "Error fetching trends" });
-}
+    res.json({ success: true, data: trends });
+  } catch (error) {
+    console.error("Error fetching order trends:", error);
+    res.status(500).json({ success: false, message: "Error fetching trends" });
+  }
 };
 
+// Order Trends by Date
 export const getOrderTrendsByDate = async (req, res) => {
   try {
     const ordersByDate = await OrderModel.aggregate([
@@ -122,6 +120,7 @@ export const getOrderTrendsByDate = async (req, res) => {
   }
 };
 
+// Order Categories
 export const getOrderCategories = async (req, res) => {
   try {
     const categories = await OrderModel.aggregate([

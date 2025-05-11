@@ -22,6 +22,7 @@ const StaffLogin = () => {
           password,
         }
       );
+      
 
       const { token, user, role } = adminRes.data;
       loginAdmin(token, { ...user, role });

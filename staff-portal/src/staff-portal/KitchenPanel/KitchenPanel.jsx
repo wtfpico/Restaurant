@@ -32,6 +32,7 @@ const KitchenPanel = () => {
     Cancelled: { color: "red", icon: <ExclamationCircleOutlined /> },
   };
 
+  
   const fetchAllOrders = async (params = {}) => {
     setLoading(true);
     try {
@@ -169,7 +170,7 @@ const KitchenPanel = () => {
             onChange={(value) => updateStatus(order._id, value)}
             style={{ width: 180 }}
           >
-            <Option value="Out for Delivery">Out for Delivery</Option>
+            <Option value="Out for Delivery">Mark as Out for Delivery</Option>
           </Select>
         ) : (
           <Tag color="gray">No Actions</Tag>

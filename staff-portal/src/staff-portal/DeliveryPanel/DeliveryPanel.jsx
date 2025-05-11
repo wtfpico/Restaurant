@@ -23,12 +23,17 @@ import "./DeliveryPanel.css";
 const { Header, Content } = Layout;
 const API_URL = "http://localhost:4000";
 
+let soundTimeout;
 const playNotificationSound = () => {
-  const audio = new Audio("/sounds/notification.mp3");
-  audio.play().catch((err) => {
-    console.warn("Audio play failed:", err);
-  });
+  clearTimeout(soundTimeout);
+  soundTimeout = setTimeout(() => {
+    const audio = new Audio("/sounds/notification.mp3");
+    audio.play().catch((err) => {
+      console.warn("Audio play failed:", err);
+    });
+  }, 100);
 };
+
 
 const statusMap = {
   "Out for Delivery": { color: "blue", icon: <CarOutlined /> },

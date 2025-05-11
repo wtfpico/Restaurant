@@ -1,22 +1,19 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaUserPlus, FaEdit, FaTrash, FaSearch } from "react-icons/fa";
-import { AdminContext } from "../../Context/AdminContext";
 import { Table, Modal, Button, Input, Select, message, Spin, Tag } from "antd";
 import moment from "moment";
-import "./Users.css"; // Assuming you have a CSS file for styling
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
+import "./Users.css";
 
 const { Search } = Input;
 const { Option } = Select;
 
 const Users = () => {
-  const { adminToken } = useContext(AdminContext);
   const [staffs, setStaffs] = useState([]);
   const [filteredStaffs, setFilteredStaffs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,6 +25,7 @@ const Users = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  //const navigate = useNavigate(); // you can keep or remove if you still need navigation
 
   const roleColors = {
     admin: "tomato",
@@ -60,13 +58,10 @@ const Users = () => {
         </Tag>
       ),
       sorter: (a, b) => a.role.localeCompare(b.role),
-      filters: [
-        { text: "Admin", value: "admin" },
-        { text: "Chef", value: "chef" },
-        { text: "Waiter", value: "waiter" },
-        { text: "Cashier", value: "cashier" },
-        { text: "Delivery", value: "delivery" },
-      ],
+      filters: Object.keys(roleColors).map((r) => ({
+        text: r.charAt(0).toUpperCase() + r.slice(1),
+        value: r,
+      })),
       onFilter: (value, record) => record.role === value,
     },
     {
@@ -100,16 +95,14 @@ const Users = () => {
   const fetchStaffs = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        "http://localhost:4000/api/staff/getStaff",
-        {
-          headers: { Authorization: `Bearer ${adminToken}` },
-        }
+      const { data } = await axios.get(
+        "http://localhost:4000/api/staff/getStaff"
       );
-      setStaffs(response.data.staffs);
-      setFilteredStaffs(response.data.staffs);
-    } catch (error) {
-      handleTokenError(error);
+      setStaffs(data.staffs);
+      setFilteredStaffs(data.staffs);
+    } catch (err) {
+      console.error(err);
+      message.error("Failed to load staff list");
     } finally {
       setLoading(false);
     }
@@ -121,38 +114,16 @@ const Users = () => {
 
   useEffect(() => {
     const filtered = staffs.filter(
-      (staff) =>
-        staff.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        staff.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        staff.role.toLowerCase().includes(searchTerm.toLowerCase())
+      (s) =>
+        s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.role.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredStaffs(filtered);
   }, [searchTerm, staffs]);
 
-  const handleTokenError = (error) => {
-    const message =
-      error.response?.data?.message || "Authentication error. Please log in.";
-    console.error("Token error:", message);
-
-    if (
-      message.toLowerCase().includes("jwt expired") ||
-      message.toLowerCase().includes("invalid token") ||
-      error.response?.status === 401
-    ) {
-      localStorage.removeItem("adminToken");
-      Modal.error({
-        title: "Session Expired",
-        content: "Your session has expired. Please log in again.",
-        onOk: () => navigate("/staff/login"),
-      });
-    } else {
-      setError(message);
-      message.error(message);
-    }
-  };
-
   const handleToggleForm = () => {
-    setShowForm(!showForm);
+    setShowForm((v) => !v);
     setEditMode(false);
     setFormData({ name: "", email: "", password: "", role: "waiter" });
     setError("");
@@ -170,8 +141,7 @@ const Users = () => {
     setShowForm(true);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = ({ target: { name, value } }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -179,37 +149,25 @@ const Users = () => {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
-
     try {
-      let response;
-      if (editMode) {
-        response = await axios.put(
-          `http://localhost:4000/api/staff/update/${currentStaffId}`,
-          formData,
-          { headers: { Authorization: `Bearer ${adminToken}` } }
-        );
-      } else {
-        response = await axios.post(
-          "http://localhost:4000/api/staff/register",
-          formData,
-          { headers: { Authorization: `Bearer ${adminToken}` } }
-        );
-      }
+      const url = editMode
+        ? `http://localhost:4000/api/staff/update/${currentStaffId}`
+        : "http://localhost:4000/api/staff/register";
+      const response = editMode
+        ? await axios.put(url, formData)
+        : await axios.post(url, formData);
 
       if (response.data.success) {
         await fetchStaffs();
         setShowForm(false);
-        setFormData({ name: "", email: "", password: "", role: "waiter" });
-        message.success(
-          editMode
-            ? "Staff updated successfully!"
-            : "Staff registered successfully!"
-        );
+        message.success(editMode ? "Staff updated!" : "Staff added!");
       } else {
         setError(response.data.message || "Operation failed");
+        message.error(response.data.message || "Operation failed");
       }
-    } catch (error) {
-      handleTokenError(error);
+    } catch (err) {
+      console.error(err);
+      message.error("An error occurred");
     } finally {
       setIsSubmitting(false);
     }
@@ -228,16 +186,16 @@ const Users = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:4000/api/staff/delete/${id}`,
-        { headers: { Authorization: `Bearer ${adminToken}` } }
+      const { data } = await axios.delete(
+        `http://localhost:4000/api/staff/delete/${id}`
       );
-      if (response.data.success) {
+      if (data.success) {
         await fetchStaffs();
-        message.success("Staff deleted successfully!");
+        message.success("Staff deleted");
       }
-    } catch (error) {
-      handleTokenError(error);
+    } catch (err) {
+      console.error(err);
+      message.error("Delete failed");
     }
   };
 
@@ -311,7 +269,7 @@ const Users = () => {
               }
               style={{ width: "100%" }}
             >
-              <Option value="admin">admin</Option>
+              <Option value="admin">Admin</Option>
               <Option value="chef">Chef</Option>
               <Option value="waiter">Waiter</Option>
               <Option value="cashier">Cashier</Option>
